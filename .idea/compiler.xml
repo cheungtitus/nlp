@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="nlpcore" />
+        <module name="spring-web-spring-boot-tomcat" />
+        <module name="spring-web-springboot-tomcat" />
+        <module name="spring-webflux-springboot-netty" />
+        <module name="springwebfluxspringbootnetty" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="nlp" target="1.8" />
+      <module name="nlpcore" target="1.8" />
+      <module name="spring-web-spring-boot-tomcat" target="1.8" />
+      <module name="spring-web-springboot-tomcat" target="1.8" />
+      <module name="spring-webflux-springboot-netty" target="1.8" />
+      <module name="springwebfluxspringbootnetty" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

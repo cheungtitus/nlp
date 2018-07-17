@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%C:%L] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="RollingRandomAccessFileNLP" fileName="logs/NLP.log"
+                                 filePattern="../logs/$${date:yyyy-MM}/NLP-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%highlight{%d [%t] %p: %msg%n%throwable}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <logger name="org.springframework" level="error">
+            <AppenderRef ref="console"/>
+        </logger>
+        <Logger name="NLP" level="trace" additivity="false" includeLocation="false">
+            <AppenderRef ref="RollingRandomAccessFileNLP"/>
+        </Logger>
+        <Root level="error" includeLocation="false">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
