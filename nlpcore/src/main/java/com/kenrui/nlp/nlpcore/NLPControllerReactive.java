@@ -1,6 +1,6 @@
 package com.kenrui.nlp.nlpcore;
 
-import com.kenrui.nlp.nlpcore.models.Comment;
+import com.kenrui.nlp.common.entities.Comment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;

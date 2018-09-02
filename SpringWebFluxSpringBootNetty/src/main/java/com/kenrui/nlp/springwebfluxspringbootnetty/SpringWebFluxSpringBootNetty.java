@@ -1,8 +1,8 @@
 package com.kenrui.nlp.springwebfluxspringbootnetty;
 
-import com.kenrui.nlp.nlpcore.utilities.SystemInfo;
+import com.kenrui.nlp.common.SystemInfo;
 import com.kenrui.nlp.springwebfluxspringbootnetty.config.AppConfig;
-import com.kenrui.nlp.springwebfluxspringbootnetty.models.ConnectionInfo;
+import com.kenrui.nlp.common.ConnectionInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.pcap4j.core.PcapNativeException;

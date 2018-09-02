@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/nlp.iml" filepath="$PROJECT_DIR$/nlp.iml" />
       <module fileurl="file://$PROJECT_DIR$/nlpcore/nlpcore.iml" filepath="$PROJECT_DIR$/nlpcore/nlpcore.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpringWebSpringBootTomcat/spring-web-springboot-tomcat.iml" filepath="$PROJECT_DIR$/SpringWebSpringBootTomcat/spring-web-springboot-tomcat.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpringWebFluxSpringBootNetty/spring-webflux-springboot-netty.iml" filepath="$PROJECT_DIR$/SpringWebFluxSpringBootNetty/spring-webflux-springboot-netty.iml" />
+      <module fileurl="file://$PROJECT_DIR$/taxonomy/taxonomy.iml" filepath="$PROJECT_DIR$/taxonomy/taxonomy.iml" />
     </modules>
   </component>
 </project>

@@ -4,7 +4,7 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%C:%L] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <RollingRandomAccessFile name="RollingRandomAccessFileNLP" fileName="logs/NLP.log"
+        <RollingRandomAccessFile name="RollingRandomAccessFileNLP" fileName="../logs/NLP.log"
                                  filePattern="../logs/$${date:yyyy-MM}/NLP-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout>
                 <Pattern>%highlight{%d [%t] %p: %msg%n%throwable}</Pattern>
@@ -16,11 +16,13 @@
         </RollingRandomAccessFile>
     </Appenders>
     <Loggers>
-        <logger name="org.springframework" level="error">
+        <Logger name="org.springframework" level="trace" additivity="false" includeLocation="false">
+            <AppenderRef ref="RollingRandomAccessFileNLP"/>
             <AppenderRef ref="console"/>
-        </logger>
+        </Logger>
         <Logger name="NLP" level="trace" additivity="false" includeLocation="false">
             <AppenderRef ref="RollingRandomAccessFileNLP"/>
+            <AppenderRef ref="console"/>
         </Logger>
         <Root level="error" includeLocation="false">
             <AppenderRef ref="console"/>

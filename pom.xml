@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kenrui</groupId>
+    <groupId>com.kenrui.nlp</groupId>
     <artifactId>nlp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -15,6 +15,8 @@
         <module>springwebfluxspringbootnetty</module>
         <module>springwebspringboottomcat</module>
         <module>nlpcore</module>
+        <module>common</module>
+        <module>taxonomy</module>
     </modules>
 
     <name>nlp</name>

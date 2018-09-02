@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kenrui</groupId>
+    <groupId>com.kenrui.nlp</groupId>
     <artifactId>spring-webflux-springboot-netty</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.kenrui</groupId>
+        <groupId>com.kenrui.nlp</groupId>
         <artifactId>nlp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../</relativePath> <!-- lookup parent from repository -->
@@ -27,12 +27,28 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <dependency>
             <groupId>io.projectreactor</groupId>
@@ -40,8 +56,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.kenrui</groupId>
+            <groupId>com.kenrui.nlp</groupId>
             <artifactId>nlpcore</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kenrui.nlp</groupId>
+            <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

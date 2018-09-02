@@ -25,6 +25,11 @@ Following is question posted on upstream inquiring how to generate sentiment mod
 https://github.com/stanfordnlp/CoreNLP/issues/742
 
 # Other Info
+## Good Reference
+I arrived to the same conclusion long time ago of using bi-directional @OneToMany and @ManyToOne by pain sticking testing.  It is nice to see Vlad Mihalcea documented this in such an easy to understand manner.
+
+https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+
 ## Missing Library
 
 ###### Include EJML

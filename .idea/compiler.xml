@@ -6,20 +6,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="common" />
         <module name="nlpcore" />
         <module name="spring-web-spring-boot-tomcat" />
         <module name="spring-web-springboot-tomcat" />
         <module name="spring-webflux-springboot-netty" />
         <module name="springwebfluxspringbootnetty" />
+        <module name="taxonomy" />
+        <module name="utilities" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="common" target="1.8" />
       <module name="nlp" target="1.8" />
       <module name="nlpcore" target="1.8" />
       <module name="spring-web-spring-boot-tomcat" target="1.8" />
       <module name="spring-web-springboot-tomcat" target="1.8" />
       <module name="spring-webflux-springboot-netty" target="1.8" />
       <module name="springwebfluxspringbootnetty" target="1.5" />
+      <module name="taxonomy" target="1.8" />
+      <module name="utilities" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
