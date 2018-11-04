@@ -8,11 +8,14 @@ Project is structured in the following modules allowing flexibility to use eithe
 
 # Features
 * Sentiment analysis using pre-trained sentiment model packaged with Stanford CoreNLP.
+* Run multiple Python based AI models in parallel.
+* Store and review results of different AI models over time. 
 
 # How To Run In IntelliJ
 1. Customize HTTP server port in configs/defaults.conf.
 2. Run any of the Run Configurations (eg SpringWebSpringBootTomcat or SpringWebFluxSpringBootNetty).
-3. Query any of the following endpoints:
+3. Download and extract [Standalone Jython JAR](http://www.jython.org/downloads.html), extract and place Lib folder in nlp\taxonomy\src\main\resources\. 
+4. Query any of the following endpoints:
 
     |Endpoint                                           |Description                                                                    |
     |---------------------------------------------------|-------------------------------------------------------------------------------|
