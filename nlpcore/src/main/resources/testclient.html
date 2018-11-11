@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script>
+        RequestBody = function(body, postedBy) {
+            this.comment_id = 1;
+            this.body = body;
+            this.postedBy = postedBy;
+        }
+        url = "http://localhost:7152/postComment";
+
+        function postComment() {
+            comment = document.getElementById("comment").value;
+            postedBy = document.getElementById("postedBy").value;
+
+            requestBody = new RequestBody(comment, postedBy);
+            console.log("Submitting comment: " + comment + ", postedBy: " + postedBy);
+
+            $.post(url, requestBody, function(result) {
+                console.log(result);
+            });
+        }
+        
+        $(document).ready(function() {
+            $("#submit").click(function() {
+                comment = $("#comment").val();
+                postedBy = $("#postedBy").val();
+
+                requestBody = new RequestBody(comment, postedBy);
+                console.log(requestBody);
+                console.log("Submitting comment: " + comment + ", postedBy: " + postedBy);
+
+//                $.post(url, requestBody, function(result) {
+//                    console.log(result);
+//                });
+                
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    data: {
+                        body: "I don't like this",
+                        postedBy: "titus"
+                    },
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                    }
+                })
+
+
+            });
+        });
+        
+
+    </script>
+</head>
+<body>
+    Comment:  <input type="text" name="comment" id="comment"><br>
+    Posted By:  <input type="text" name="postedBy" id="postedBy"><br>
+    <!-- <button type="button" id="submit" onclick="postComment()">Submit</button> -->
+    <button type="button" id="submit">Submit</button>
+</body>
+</html>

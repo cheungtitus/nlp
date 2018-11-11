@@ -11,6 +11,8 @@ import com.kenrui.nlp.taxonomy.TaxonomyModelWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ import java.util.List;
 
 // Really should move this class to the com.kenrui.nlp.common package
 @Component("NLPControllerMVC")
+@CrossOrigin
 @RestController
 public class NLPControllerMVC {
     private static final Logger logger = LogManager.getLogger("NLP");
@@ -29,6 +32,11 @@ public class NLPControllerMVC {
 
     private Pipeline pipeline = new Pipeline();
     TaxonomyModelWrapper taxonomyModelWrapper = new TaxonomyModelWrapper();
+
+    @PostMapping("/postComment")
+    public ResponseEntity postComment(@RequestBody Comment comment) {
+        return new ResponseEntity(JsonHelper.write(comment), HttpStatus.OK);
+    }
 
     @GetMapping("/gettaxonomy")
     public String getTaxonomy() {
