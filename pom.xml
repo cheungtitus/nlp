@@ -16,7 +16,7 @@
         <module>springwebspringboottomcat</module>
         <module>nlpcore</module>
         <module>common</module>
-        <module>taxonomy</module>
+        <module>taxonomyCategory</module>
     </modules>
 
     <name>nlp</name>

@@ -1,6 +1,8 @@
 package com.kenrui.nlp.taxonomy;
 
 import com.kenrui.nlp.common.entities.Taxonomy;
+import com.kenrui.nlp.common.entities.TaxonomyCategory;
+import com.kenrui.nlp.common.entities.TaxonomyProduct;
 import org.python.util.PythonInterpreter;
 
 import java.util.Properties;
@@ -24,6 +26,7 @@ public class TaxonomyModel1InsuranceAuto implements TaxonomyModel {
         interp = new PythonInterpreter();
         interp.exec("import sys");
     }
+
     @Override
     public Taxonomy getTaxonomy(String comment) {
         interp.exec("print"); // Add empty line for clarity
@@ -35,6 +38,9 @@ public class TaxonomyModel1InsuranceAuto implements TaxonomyModel {
         // Use sys.arv.append to add arguments to be used by python script
         interp.execfile(model);
 
-        return new Taxonomy("Insurance", "Auto", this.getClass().getSimpleName());
+//        String model = this.getClass().getSimpleName();
+        TaxonomyCategory taxonomyCategory = new TaxonomyCategory("Insurance", model);
+        TaxonomyProduct taxonomyProduct = new TaxonomyProduct("Auto", model);
+        return new Taxonomy(taxonomyCategory, taxonomyProduct);
     }
 }

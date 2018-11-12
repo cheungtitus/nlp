@@ -10,30 +10,44 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Comment {
-    @Column(name="comment_id",table="Comment",nullable=false)
+    @Column(name = "comment_id", table = "Comment", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence-generator")
     @SequenceGenerator(name = "sequence-generator", sequenceName = "comment_sequence")
     private Long comment_id;
 
-    private String body;
+    private String text;
     private String postedBy;
 
-    @OneToMany(cascade={CascadeType.ALL},targetEntity=Sentiment.class,mappedBy="comment")
-    private Collection<Sentiment> sentiments = new ArrayList();
+    //    @OneToMany(cascade={CascadeType.ALL},targetEntity=Sentiment.class,mappedBy="comment")
+//    private Collection<Sentiment> sentiments = new ArrayList();
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "sentiment_id", referencedColumnName = "sentiment_id")
+    private Sentiment sentiment;
 
-    @OneToMany(cascade={CascadeType.ALL},targetEntity=Taxonomy.class,mappedBy="comment")
-    private Collection<Taxonomy> taxonomies = new ArrayList();
+    //    @OneToMany(cascade={CascadeType.ALL},targetEntity= TaxonomyCategory.class,mappedBy="comment")
+//    private Collection<TaxonomyCategory> taxonomyCategories = new ArrayList();
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private TaxonomyCategory taxonomyCategory;
 
-    public Comment(String body, String postedBy) {
-        this.body = body;
+    //    @OneToMany(cascade={CascadeType.ALL},targetEntity= TaxonomyProduct.class,mappedBy="comment")
+//    private Collection<TaxonomyProduct> taxonomyProducts = new ArrayList();
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private TaxonomyProduct taxonomyProduct;
+
+    public Comment(String text, String postedBy) {
+        this.text = text;
         this.postedBy = postedBy;
     }
 
-    public String getBody() {
-        return body;
+    public String getText() {
+        return text;
     }
 
     public void addSentiment(Sentiment sentiment) {
@@ -46,20 +60,32 @@ public class Comment {
         sentiments.remove(sentiment);
     }
 
-    public void addTaxonomy(Taxonomy taxonomy) {
-        taxonomy.setComment(this);
-        taxonomies.add(taxonomy);
+    public void addTaxonomyCategory(TaxonomyCategory taxonomyCategory) {
+        taxonomyCategory.setComment(this);
+        taxonomyCategories.add(taxonomyCategory);
     }
 
-    public void removeTaxonomy(Taxonomy taxonomy) {
-        taxonomy.setComment(null);
-        taxonomies.remove(taxonomy);
+    public void removeTaxonomyCategory(TaxonomyCategory taxonomyCategory) {
+        taxonomyCategory.setComment(null);
+        taxonomyCategories.remove(taxonomyCategory);
+    }
+
+    public void addTaxonomyProduct(TaxonomyProduct taxonomyProduct) {
+        taxonomyProduct.setComment(this);
+        taxonomyProducts.add(taxonomyProduct);
+    }
+
+    public void removeTaxonomyProduct(TaxonomyProduct taxonomyProduct) {
+        taxonomyProduct.setComment(null);
+        taxonomyProducts.remove(taxonomyProduct);
     }
 
     public void addTaxonomies(List<Taxonomy> taxonomyList) {
         taxonomyList.forEach(taxonomy -> {
-            taxonomy.setComment(this);
+            taxonomy.getTaxonomyCategory().setComment(this);
+            taxonomyCategories.add(taxonomy.getTaxonomyCategory());
+            taxonomy.getTaxonomyProduct().setComment(this);
+            taxonomyProducts.add(taxonomy.getTaxonomyProduct());
         });
-        taxonomies.addAll(taxonomyList);
     }
 }

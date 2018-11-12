@@ -1,6 +1,5 @@
 package com.kenrui.nlp.common.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +17,10 @@ public class Sentiment {
 
     public String sentiment;
 
-    @ManyToOne(optional=false,cascade={CascadeType.ALL},targetEntity=Comment.class)
-    @JoinColumn(name="comment_id")
-    @JsonBackReference  // https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue
+//    @ManyToOne(optional=false,cascade={CascadeType.ALL},targetEntity=Comment.class)
+//    @JoinColumn(name="comment_id")
+//    @JsonBackReference  // https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue
+    @OneToMany(mappedBy = "sentiment", targetEntity = Comment.class)
     private Comment comment;
 
     public Sentiment(String sentiment) {
