@@ -52,6 +52,9 @@ public class Model {
     }
 
     public List<CommentModelCategory> getCommentsCategories() {
+        if (commentsCategories == null) {
+            commentsCategories = new ArrayList<>();
+        }
         return commentsCategories;
     }
 

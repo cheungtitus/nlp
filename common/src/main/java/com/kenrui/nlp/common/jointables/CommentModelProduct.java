@@ -1,24 +1,33 @@
 package com.kenrui.nlp.common.jointables;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kenrui.nlp.common.compositekeys.CommentModelId;
 import com.kenrui.nlp.common.entities.Comment;
 import com.kenrui.nlp.common.entities.Model;
 import com.kenrui.nlp.common.entities.TaxonomyProduct;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class CommentModelProduct {
     @EmbeddedId
     public CommentModelId commentModelId;
 
     @ManyToOne
     @MapsId("commentId") // maps the commentId of the embedded id to a comment
+    @JsonBackReference
     public Comment comment;
 
     @ManyToOne
     @MapsId("modelId") // maps the modelId of the embedded id to a model
+    @JsonBackReference
     public Model model;
 
     @ManyToOne
@@ -46,5 +55,13 @@ public class CommentModelProduct {
     @Override
     public int hashCode() {
         return Objects.hash(comment, model);
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public TaxonomyProduct getProduct() {
+        return product;
     }
 }

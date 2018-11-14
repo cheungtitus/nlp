@@ -66,16 +66,16 @@ public class Comment {
     public void addModelCategory(Model model, TaxonomyCategory category) {
         CommentModelCategory commentModelCategory = new CommentModelCategory(this, model, category);
         modelsCategories.add(commentModelCategory);
-        model.getCommentsCategories().add(commentModelCategory);
-        category.getCommentsModels().add(commentModelCategory);
+//        model.getCommentsCategories().add(commentModelCategory);
+//        category.getCommentsModels().add(commentModelCategory);
     }
 
     // Comments posted creates a relationship with products via the CommentModelProduct join table
     public void addModelProduct(Model model, TaxonomyProduct product) {
         CommentModelProduct commentModelProduct = new CommentModelProduct(this, model, product);
         modelsProducts.add(commentModelProduct);
-        model.getCommentsProducts().add(commentModelProduct);
-        product.getCommentsModels().add(commentModelProduct);
+//        model.getCommentsProducts().add(commentModelProduct);
+//        product.getCommentsModels().add(commentModelProduct);
     }
 
     // Comments posted creates a relationship with sentiment
@@ -109,7 +109,23 @@ public class Comment {
         return commentId;
     }
 
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
     public String getText() {
         return text;
+    }
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public TaxonomyCategory getCategory() {
+        return category;
+    }
+
+    public TaxonomyProduct getProduct() {
+        return product;
     }
 }

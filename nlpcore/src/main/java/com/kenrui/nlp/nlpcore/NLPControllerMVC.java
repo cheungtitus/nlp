@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -82,14 +83,9 @@ public class NLPControllerMVC {
     }
 
     @PostMapping("/postComment")
-    public ResponseEntity postComment(@RequestBody Comment comment) {
-        return new ResponseEntity(JsonHelper.write(comment), HttpStatus.OK);
-    }
-
-    @PostMapping("/postItem")
     public ResponseEntity postComment(@RequestBody ItemSubmitted itemSubmitted) {
         logger.trace("----------------------------------------------------------------------");
-        logger.trace("/postItem");
+        logger.trace("/postComment");
         logger.trace("----------------------------------------------------------------------");
 
         Comment comment = new Comment(itemSubmitted.getText(), itemSubmitted.getPostedBy());
@@ -135,7 +131,14 @@ public class NLPControllerMVC {
                 // One Taxonomy object is returned for each AI model used
                 // Each Taxonomy object contains a TaxonomyCategory object and a TaxonomyProduct object
                 List<Taxonomy> taxonomyList = taxonomyModelWrapper.getTaxonomyFromModels(comment.getText());
-                commentRepository.save(comment);
+                Comment lastComment = commentRepository.findFirstByOrderByCommentIdDesc();
+                Long nextId = 0L;
+                if (lastComment == null) {
+                    nextId = 1L;
+                } else {
+                    nextId = lastComment.getCommentId() + 1;
+                }
+                comment.setCommentId(nextId);
                 comment.addTaxonomies(taxonomyList);
             }
         } else {
@@ -154,56 +157,43 @@ public class NLPControllerMVC {
         return new ResponseEntity(JsonHelper.write(comment), HttpStatus.OK);
     }
 
-    @GetMapping("/gettaxonomycategory")
-    public String getTaxonomyCategory() {
+    @GetMapping("/getcategorylist")
+    public String getCategoryList() {
         return JsonHelper.write(taxonomyCategoryRepository.findAll());
     }
 
-    @PostMapping("/getsentiment")
-    public String getSentiment(@RequestBody Comment comment) {
-        return pipeline.getSentiment(commentRepository.save(comment).getText());
+    @GetMapping("/getproductlist")
+    public String getProductList() {
+        return JsonHelper.write(taxonomyProductRepository.findAll());
     }
 
-    @GetMapping ("/getsentiment")
-    public String getSentiment(@RequestParam String body,
-                               @RequestParam String postedBy) {
+    @GetMapping("/getsentimentlist")
+    public String getSentimentList() {
+        return JsonHelper.write(sentimentRepository.findAll());
+    }
 
-        Comment comment = new Comment(body, postedBy);
+    @GetMapping("/getmodellist")
+    public String getModelList() {
+        return JsonHelper.write(modelRepository.findAll());
+    }
 
-        String sentiment = pipeline.getSentiment(comment.getText());
-        comment.addSentiment(new Sentiment(sentiment));
+    @GetMapping("/getcommentlist")
+    public String getCommentList() {
+        return JsonHelper.write(commentRepository.findAll());
+    }
 
-        List<Taxonomy> taxonomyList = taxonomyModelWrapper.getTaxonomyFromModels(comment.getText());
-        comment.addTaxonomies(taxonomyList);
+    @GetMapping("/getmodelsaccuracies")
+    public String getModelsAccuracies() {
+        CheckAccuracy checkAccuracy = new CheckAccuracy(commentRepository, modelRepository);
+        Map<String, List<Double>> modelScores = checkAccuracy.checkScore();
+        return JsonHelper.write(modelScores);
+    }
 
-        commentRepository.save(comment);
-
-        logger.trace("Comment Repository");
-        commentRepository.findAll().forEach(item -> {
-            logger.trace(JsonHelper.write(item));
-        });
-
-        logger.trace("Sentiment Repository");
-        sentimentRepository.findAll().forEach(item -> {
-            logger.trace(JsonHelper.write(item));
-        });
-
-        logger.trace("Model Repository");
-        modelRepository.findAll().forEach(item -> {
-            logger.trace(JsonHelper.write(item));
-        });
-
-        logger.trace("TaxonomyCategory Repository");
-        taxonomyCategoryRepository.findAll().forEach(item -> {
-            logger.trace(JsonHelper.write(item));
-        });
-
-        logger.trace("TaxonomyProduct Repository");
-        taxonomyProductRepository.findAll().forEach(item -> {
-            logger.trace(JsonHelper.write(item));
-        });
-
-        return sentiment;
+    @GetMapping("/deleteall")
+    public String deleteAll() {
+        commentRepository.deleteAll();
+        dumpTables();
+        return "Deleted all records.";
     }
 
     @GetMapping ("/check")

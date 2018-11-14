@@ -1,6 +1,7 @@
 package com.kenrui.nlp.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kenrui.nlp.common.jointables.CommentModelCategory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class TaxonomyCategory {
     @SequenceGenerator(name = "sequence-generator", sequenceName = "taxonomy_category_sequence")
     public Long categoryId;
 
+    @JsonProperty("displayName")
     public String category;
 
     // This is for categories predicted by models
@@ -53,6 +55,10 @@ public class TaxonomyCategory {
     }
 
     public List<CommentModelCategory> getCommentsModels() {
+        if (commentsModels == null) {
+            commentsModels = new ArrayList<>();
+
+        }
         return commentsModels;
     }
 

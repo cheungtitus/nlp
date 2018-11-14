@@ -1,6 +1,7 @@
 package com.kenrui.nlp.common.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kenrui.nlp.common.jointables.CommentModelProduct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class TaxonomyProduct {
     @SequenceGenerator(name = "sequence-generator", sequenceName = "taxonomy_product_sequence")
     public Long productId;
 
+    @JsonProperty("displayName")
     public String product;
 
     // This is for products predicted by models
