@@ -1,18 +1,35 @@
 package com.kenrui.nlp.taxonomy;
 
+import com.kenrui.nlp.common.entities.Model;
 import com.kenrui.nlp.common.entities.Taxonomy;
 import com.kenrui.nlp.common.entities.TaxonomyCategory;
 import com.kenrui.nlp.common.entities.TaxonomyProduct;
+import com.kenrui.nlp.common.repositories.ModelRepository;
+import com.kenrui.nlp.common.repositories.TaxonomyCategoryRepository;
+import com.kenrui.nlp.common.repositories.TaxonomyProductRepository;
 import org.python.util.PythonInterpreter;
 
 import java.util.Properties;
 
 public class TaxonomyModel1InsuranceAuto implements TaxonomyModel {
-    private String model;
+    private ModelRepository modelRepository;
+    private TaxonomyCategoryRepository taxonomyCategoryRepository;
+    private TaxonomyProductRepository taxonomyProductRepository;
+
+    private String script;
+    private Model model;
     private PythonInterpreter interp;
 
-    public TaxonomyModel1InsuranceAuto(String model) {
-        this.model = model;
+    public TaxonomyModel1InsuranceAuto(String script, Model model,
+                                       ModelRepository modelRepository,
+                                       TaxonomyCategoryRepository taxonomyCategoryRepository,
+                                       TaxonomyProductRepository taxonomyProductRepository) {
+        this.modelRepository = modelRepository;
+        this.taxonomyCategoryRepository = taxonomyCategoryRepository;
+        this.taxonomyProductRepository = taxonomyProductRepository;
+
+        this.script = script;
+        this.model = modelRepository.findByModel(model.getModel());
         Properties props = new Properties();
         // Per following there are a few important environment variables ...
         // https://docs.python.org/2/using/cmdline.html#environment-variables
@@ -36,11 +53,13 @@ public class TaxonomyModel1InsuranceAuto implements TaxonomyModel {
         interp.exec("print"); // Another blank for clarity
 
         // Use sys.arv.append to add arguments to be used by python script
-        interp.execfile(model);
+        interp.execfile(script);
 
-//        String model = this.getClass().getSimpleName();
-        TaxonomyCategory taxonomyCategory = new TaxonomyCategory("Insurance", model);
-        TaxonomyProduct taxonomyProduct = new TaxonomyProduct("Auto", model);
-        return new Taxonomy(taxonomyCategory, taxonomyProduct);
+        String category = "insurance";
+        String product = "auto";
+
+        TaxonomyCategory taxonomyCategory = taxonomyCategoryRepository.findByCategory(category.toLowerCase());
+        TaxonomyProduct taxonomyProduct = taxonomyProductRepository.findByProduct(product.toLowerCase());
+        return new Taxonomy(model, taxonomyCategory, taxonomyProduct);
     }
 }
