@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+//@Import(JPAConfig.class)
 public class AppConfigTaxonomyModelWrapper {
     @Bean
     public String pythonLibPath() {

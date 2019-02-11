@@ -16,7 +16,7 @@ public class NLPControllerReactive {
 
     @PostMapping("/getsentiment")
     public Mono<String> getSentiment(@RequestBody Comment comment) {
-        return Mono.just(pipeline.getSentiment(comment.getBody()));
+        return Mono.just(pipeline.getSentiment(comment.getText()));
     }
 
     @GetMapping ("/getsentiment/{sentence}")

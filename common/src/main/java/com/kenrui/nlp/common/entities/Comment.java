@@ -1,65 +1,131 @@
 package com.kenrui.nlp.common.entities;
 
+import com.kenrui.nlp.common.jointables.CommentModelCategory;
+import com.kenrui.nlp.common.jointables.CommentModelProduct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
 public class Comment {
-    @Column(name="comment_id",table="Comment",nullable=false)
+    @Column(name = "commentId", table = "Comment", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence-generator")
     @SequenceGenerator(name = "sequence-generator", sequenceName = "comment_sequence")
-    private Long comment_id;
+    public Long commentId;
 
-    private String body;
-    private String postedBy;
+    public String text;
+    public String postedBy;
 
-    @OneToMany(cascade={CascadeType.ALL},targetEntity=Sentiment.class,mappedBy="comment")
-    private Collection<Sentiment> sentiments = new ArrayList();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<CommentModelCategory> modelsCategories = new ArrayList<>();
 
-    @OneToMany(cascade={CascadeType.ALL},targetEntity=Taxonomy.class,mappedBy="comment")
-    private Collection<Taxonomy> taxonomies = new ArrayList();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<CommentModelProduct> modelsProducts = new ArrayList<>();
 
-    public Comment(String body, String postedBy) {
-        this.body = body;
+    @ManyToOne
+    @JoinColumn(name = "sentimentId")
+    public Sentiment sentiment;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    public TaxonomyCategory category;
+
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    public TaxonomyProduct product;
+
+    public Comment(String text, String postedBy) {
+        this.text = text;
         this.postedBy = postedBy;
     }
 
-    public String getBody() {
-        return body;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Comment that = (Comment) o;
+        return Objects.equals(commentId, that.commentId);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(commentId);
+    }
+
+    // Comments posted creates a relationship with categories via the CommentModelCategory join table
+    public void addModelCategory(Model model, TaxonomyCategory category) {
+        CommentModelCategory commentModelCategory = new CommentModelCategory(this, model, category);
+        modelsCategories.add(commentModelCategory);
+//        model.getCommentsCategories().add(commentModelCategory);
+//        category.getCommentsModels().add(commentModelCategory);
+    }
+
+    // Comments posted creates a relationship with products via the CommentModelProduct join table
+    public void addModelProduct(Model model, TaxonomyProduct product) {
+        CommentModelProduct commentModelProduct = new CommentModelProduct(this, model, product);
+        modelsProducts.add(commentModelProduct);
+//        model.getCommentsProducts().add(commentModelProduct);
+//        product.getCommentsModels().add(commentModelProduct);
+    }
+
+    // Comments posted creates a relationship with sentiment
     public void addSentiment(Sentiment sentiment) {
-        sentiment.setComment(this);
-        sentiments.add(sentiment);
+        this.sentiment = sentiment;
     }
 
-    public void removeSentiment(Sentiment sentiment) {
-        sentiment.setComment(null);
-        sentiments.remove(sentiment);
+    // Comments posted creates a relationship with category supplied by user
+    public void addCategory(TaxonomyCategory category) {
+        this.category = category;
     }
 
-    public void addTaxonomy(Taxonomy taxonomy) {
-        taxonomy.setComment(this);
-        taxonomies.add(taxonomy);
+    // Comments posted creates a relationship with product supplied by user
+    public void addProduct(TaxonomyProduct product) {
+        this.product = product;
     }
 
-    public void removeTaxonomy(Taxonomy taxonomy) {
-        taxonomy.setComment(null);
-        taxonomies.remove(taxonomy);
-    }
-
+    // Add links to categories and products guesstimated from each AI model
     public void addTaxonomies(List<Taxonomy> taxonomyList) {
         taxonomyList.forEach(taxonomy -> {
-            taxonomy.setComment(this);
+            Model model = taxonomy.getModel();
+            TaxonomyCategory taxonomyCategory = taxonomy.getTaxonomyCategory();
+            TaxonomyProduct taxonomyProduct = taxonomy.getTaxonomyProduct();
+
+            this.addModelCategory(model, taxonomyCategory);
+            this.addModelProduct(model, taxonomyProduct);
         });
-        taxonomies.addAll(taxonomyList);
+    }
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public TaxonomyCategory getCategory() {
+        return category;
+    }
+
+    public TaxonomyProduct getProduct() {
+        return product;
     }
 }

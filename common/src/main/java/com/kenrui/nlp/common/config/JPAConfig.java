@@ -76,6 +76,8 @@ public class JPAConfig {
         properties.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
         properties.put("javax.persistence.schema-generation.database.action", env.getProperty("javax.persistence.schema-generation.database.action"));
         properties.put("javax.persistence.schema-generation.scripts.action", env.getProperty("javax.persistence.schema-generation.scripts.action"));
+        properties.put("javax.persistence.schema-generation.create-database-schemas", env.getProperty("javax.persistence.schema-generation.create-database-schemas"));
+        properties.put("javax.persistence.schema-generation.scripts.drop-target", env.getProperty("javax.persistence.schema-generation.scripts.drop-target"));
         properties.put("javax.persistence.schema-generation.scripts.create-target", env.getProperty("javax.persistence.schema-generation.scripts.create-target"));
         return properties;
     }
